@@ -5,10 +5,12 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 // Claude API integration - goes through your backend
 const callClaudeAPI = async (prompt, maxTokens = 1000) => {
   try {
-    const response = await fetch('/api/claude', {
+    const response = await fetch('https://cors-anywhere.herokuapp.com/https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': 'YOUR_ACTUAL_API_KEY_HERE',
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
         model: 'claude-3-sonnet-20240229',
@@ -17,8 +19,13 @@ const callClaudeAPI = async (prompt, maxTokens = 1000) => {
       })
     });
     
-    if (!response.ok) {
-      throw new Error(`API call failed: ${response.status}`);
+    const data = await response.json();
+    return data.content[0].text;
+  } catch (error) {
+    console.error('Claude API error:', error);
+    throw error;
+  }
+};
     }
     
     const data = await response.json();
