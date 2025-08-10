@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 
-// FOUNDERS UNIVERSITY — Enhanced with Claude API integration
+// FOUNDERS UNIVERSITY - Enhanced with Claude API integration
 
 // Claude API integration - goes through your backend
 const callClaudeAPI = async (prompt, maxTokens = 1000) => {
