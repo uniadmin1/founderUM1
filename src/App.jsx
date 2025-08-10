@@ -16,19 +16,6 @@ const callClaudeAPI = async (prompt, maxTokens = 1000) => {
         messages: [{ role: 'user', content: prompt }]
       })
     });
-    
-    if (!response.ok) {
-      throw new Error(`API call failed: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    return data.content[0].text;
-  } catch (error) {
-    console.error('Claude API error:', error);
-    throw error;
-  }
-};
-    
     const data = await response.json();
     return data.content[0].text;
   } catch (error) {
