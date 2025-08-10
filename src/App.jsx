@@ -26,7 +26,7 @@ const callClaudeAPI = async (prompt, maxTokens = 1000) => {
     throw error;
   }
 };
-    }
+    };
     
     const data = await response.json();
     return data.content[0].text;
