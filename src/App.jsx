@@ -5,10 +5,12 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 // Claude API integration - goes through your backend
 const callClaudeAPI = async (prompt, maxTokens = 1000) => {
   try {
-    const response = await fetch('/api/claude', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': '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',
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
         model: 'claude-3-sonnet-20240229',
@@ -16,11 +18,11 @@ const callClaudeAPI = async (prompt, maxTokens = 1000) => {
         messages: [{ role: 'user', content: prompt }]
       })
     });
+    
     const data = await response.json();
     return data.content[0].text;
   } catch (error) {
-    console.error('Claude API error:', error);
-    throw error;
+    return "Sorry, having trouble connecting.";
   }
 };
 
