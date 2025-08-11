@@ -5,7 +5,7 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 // Claude API integration - goes through your backend
 const callClaudeAPI = async (prompt, maxTokens = 1000) => {
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/claude', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
