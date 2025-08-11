@@ -14,9 +14,15 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body)
     });
     
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
+    console.log('API Response:', data); // Debug log
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'API call failed' });
+    console.error('API Error:', error);
+    res.status(500).json({ error: error.message });
   }
 }
