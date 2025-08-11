@@ -1,21 +1,31 @@
-const callClaudeAPI = async (prompt, maxTokens = 1000) => {
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const response = await fetch('/api/claude', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-3-sonnet-20240229',
-        max_tokens: maxTokens,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': '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',
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify(req.body)
     });
     
     const data = await response.json();
-    
-    // Just return whatever we can get
-    return data?.content?.[0]?.text || data?.message || data?.error || "API returned: " + JSON.stringify(data);
-    
+    res.json(data);
   } catch (error) {
-    return "Error: " + error.message;
+    res.status(500).json({ error: 'API call failed' });
   }
-};
+}
