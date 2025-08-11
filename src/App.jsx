@@ -6,19 +6,15 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 const callClaudeAPI = async (prompt, maxTokens = 1000) => {
   try {
     const response = await fetch('/api/claude', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': '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',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-3-sonnet-20240229',
-        max_tokens: maxTokens,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    prompt: prompt,
+    maxTokens: maxTokens
+  })
+});
     const data = await response.json();
     return data.content[0].text;
   } catch (error) {
