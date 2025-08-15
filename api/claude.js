@@ -45,4 +45,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    console.error('Claude API er
+    } catch (error) {
+    console.error('Claude API error:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+}
