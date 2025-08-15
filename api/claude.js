@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       // Use new format directly
       claudeRequest = req.body;
     }
-
+    
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    } catch (error) {
     console.error('Claude API error:', error);
     res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
 }
