@@ -10,15 +10,36 @@ const callClaudeAPI = async (prompt, maxTokens = 1000) => {
   headers: {
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({
-    prompt: prompt,
-    maxTokens: maxTokens
-  })
-});
+  const callClaudeAPI = async (prompt, maxTokens = 1000) => {
+  try {
+    const response = await fetch('/api/claude', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        maxTokens: maxTokens
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
     const data = await response.json();
-    return data.content[0].text;
+    console.log('Claude API response:', data);
+    
+    // Handle the response structure safely
+    if (data.content && data.content[0] && data.content[0].text) {
+      return data.content[0].text;
+    } else {
+      throw new Error('Invalid response structure');
+    }
   } catch (error) {
+    console.error('Claude API error:', error);
     return "Sorry, having trouble connecting.";
+  }
+};
   }
 };
 
